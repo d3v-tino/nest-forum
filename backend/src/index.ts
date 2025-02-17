@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import config from "./config/config";
 import { connectDB } from "./config/db";
 import cors from "cors";
@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors());
 
-app.get('/', async (req, res) => {
+app.get('/', async (req: Request, res: Response) => {
     const user = await User.findOne({ username: "Tino" });;
     res.status(200).json({ message: user?.username });
 });

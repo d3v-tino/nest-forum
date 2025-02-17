@@ -70,3 +70,4 @@ jobs:
         with:
           branch: gh-pages
           folder: frontend/build
+          token: ${{ secrets.GITHUB_TOKEN }}

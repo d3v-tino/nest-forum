@@ -14,7 +14,9 @@ app.get('/', async (req, res) => {
     res.status(200).json({ message: user?.username });
 });
 
-app.listen(PORT, () => {
-    connectDB();
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+if (config.NODE_ENV !== "test") {
+    app.listen(PORT, () => {
+        connectDB();
+        console.log(`🚀 Server running on port ${config.PORT} in ${config.NODE_ENV} mode`);
+    });
+};

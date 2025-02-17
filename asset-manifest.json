@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.js": "/your-repo/static/js/main.9c620904.js",
-    "index.html": "/your-repo/index.html",
-    "main.9c620904.js.map": "/your-repo/static/js/main.9c620904.js.map"
+    "main.js": "/nest-forum/static/js/main.9c620904.js",
+    "index.html": "/nest-forum/index.html",
+    "main.9c620904.js.map": "/nest-forum/static/js/main.9c620904.js.map"
   },
   "entrypoints": [
     "static/js/main.9c620904.js"

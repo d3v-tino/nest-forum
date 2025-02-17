@@ -7,7 +7,10 @@
       "strict": true,                      
       "esModuleInterop": true,             
       "forceConsistentCasingInFileNames": true,
-      "skipLibCheck": true                 
+      "skipLibCheck": true,
+      "resolveJsonModule": true,
+      "moduleResolution": "node",
+      "types": ["node", "express", "cors"]                 
     },
     "include": ["src", "src/index.ts"],
     "exclude": ["node_modules", "dist"]

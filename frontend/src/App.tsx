@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 function App() {
   const [message, setMessage] = useState("");
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+  const API_BASE_URL = process.env.API_BASE_URL;
 
   const handleSubmit = async () => {
     try {

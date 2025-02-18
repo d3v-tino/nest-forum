@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 
 function App() {
   const [message, setMessage] = useState("");
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:5000/').then(r => r.json());
+      const response = await fetch(`${API_BASE_URL}/`)
+      .then(r => r.json())
+      .catch(e => console.error(e));
       setMessage(response.message);
     } catch (error) {
       console.error("Error fetching data:", error);

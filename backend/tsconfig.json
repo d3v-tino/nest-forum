@@ -10,6 +10,7 @@
       "skipLibCheck": true,
       "resolveJsonModule": true,
       "moduleResolution": "node",
+      "typeRoots": ["./node_modules/@types"],
       "types": ["node", "express", "cors"]                 
     },
     "include": ["src", "src/index.ts"],

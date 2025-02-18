@@ -14,5 +14,5 @@
       "types": ["node", "express", "cors"]                 
     },
     "include": ["src", "src/index.ts"],
-    "exclude": ["node_modules", "dist"]
+    "exclude": ["./node_modules/@types"]
   }  

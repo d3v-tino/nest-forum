@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 
 function App() {
   const [message, setMessage] = useState("");
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+  const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/`)
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/`)
       .then(r => r.json())
       .catch(e => console.error(e));
       setMessage(response.message);

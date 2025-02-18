@@ -62,6 +62,8 @@ jobs:
         run: npm ci
 
       - name: Build Frontend
+        env:
+          API_BASE_URL: "https://nest-forum-aout.onrender.com"
         run: npm run build
 
       - name: Deploy to GitHub Pages

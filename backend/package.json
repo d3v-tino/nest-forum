@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --NODE_ENV=test",
+    "test": "jest --NODE_ENV=test --detectOpenHandles",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts --NODE_ENV=development",
     "build": "tsc",
     "start": "node dist/index.js",
@@ -24,6 +24,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.4",
+    "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.24.0",
     "@typescript-eslint/parser": "^8.24.0",
     "cross-env": "^7.0.3",

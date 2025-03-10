@@ -1,22 +1,28 @@
-import express, { Request, Response } from "express";
+import express, { Router } from "express";
 import config from "./config/config";
 import { connectDB } from "./config/db";
 import cors from "cors";
-import { User } from "./models/User";
+import authRouter from "./routes/authRoute";
 
 const PORT = config.PORT || 5000;
-const app = express();
+export const app = express();
+const apiRouter = Router();
 
 app.use(cors());
+app.use(express.json());
+app.use("/api", apiRouter);
 
-app.get('/', async (req: Request, res: Response) => {
-    const user = await User.findOne({ username: "Tino" });;
-    res.status(200).json({ message: user?.username });
-});
+// Endpoints
+apiRouter.use("/auth", authRouter);
 
 if (config.NODE_ENV !== "test") {
-    app.listen(PORT, () => {
+    try {
         connectDB();
-        console.log(`🚀 Server running on port ${config.PORT} in ${config.NODE_ENV} mode`);
-    });
+        app.listen(PORT, () => {
+            console.log(`🚀 Server running on port ${PORT} in ${config.NODE_ENV} mode`);
+        });
+    } catch (error) {
+        console.error("❌ Failed to connect to database:", error);
+        process.exit(1);
+    }
 };

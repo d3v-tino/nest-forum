@@ -3,16 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { TextField, Link, Typography, Button } from "@mui/material";
 import { NestCard } from "../components/Card";
 import { signin } from "../api/models/auth";
+import { useAuth } from "../context/AuthContext";
+
 
 export const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleLogin = async () => {
         try {
             const response = await signin({ email, password });
-            localStorage.setItem("token", response.token);
+            login(response.token, response.user);
             navigate("/dashboard");
 
         } catch (error) {

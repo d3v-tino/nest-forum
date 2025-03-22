@@ -6,7 +6,7 @@ interface AuthContextProps {
     isLoggedIn: boolean;
     token: string | null;
     user: User | null;
-    login: (responseToken: string) => void;
+    login: (responseToken: string, user: User) => void;
     logout: () => void;
 }
 
@@ -25,8 +25,9 @@ export const AuthProvider = ({ children }:{ children: ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
 
-    const login = useCallback((responseToken: string) => {
+    const login = useCallback((responseToken: string, user: User) => {
         setToken(responseToken);
+        setUser(user);
         localStorage.setItem("token", responseToken);
     }, []);
 

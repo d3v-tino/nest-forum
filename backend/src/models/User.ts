@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 UserSchema.pre("save", async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user = this as any;
 
   if (user.isNew) {
@@ -20,6 +21,7 @@ UserSchema.pre("save", async function (next) {
         { $inc: { seq: 1 } },
         { new: true, upsert: true }
       );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       user.uid = counter?.seq;
     } catch (error: any) {
       return next(error);

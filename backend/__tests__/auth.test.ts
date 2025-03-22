@@ -1,9 +1,8 @@
-import config from "../src/config/config";
 import { describe, expect, test, beforeAll, afterAll } from '@jest/globals';
 import { app } from "../src/index";
 import request from "supertest";
 import { User } from "../src/models/User";
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 import { connectDB } from "../src/config/db";
 
 describe("Test for Auth Endpoints", () => {

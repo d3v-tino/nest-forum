@@ -3,7 +3,6 @@ import config from "./config/config";
 import { connectDB } from "./config/db";
 import cors from "cors";
 import authRouter from "./routes/authRoute";
-import { User } from "./models/User";
 
 const PORT = config.PORT || 5000;
 export const app = express();
@@ -15,10 +14,6 @@ app.use("/api", apiRouter);
 
 // Endpoints
 apiRouter.use("/auth", authRouter);
-
-const createInstance = async () => {
-    //add instance for creating columns
-}
 
 if (config.NODE_ENV !== "test") {
     try {

@@ -21,8 +21,8 @@ UserSchema.pre("save", async function (next) {
         { $inc: { seq: 1 } },
         { new: true, upsert: true }
       );
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       user.uid = counter?.seq;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       return next(error);
     }

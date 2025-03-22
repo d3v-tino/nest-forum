@@ -25,11 +25,11 @@ export const registerUser = async (req: Request, res: Response) => {
             password_hash: password
         });
 
-        console.log("201 - User registered");
-        res.status(201).json({
+        console.log("User registered");
+        return res.status(201).json({
             message: "User registered",
             user: {
-                id: user.id,
+                id: user.uid,
                 email: user.email,
                 username: user.username,
             }

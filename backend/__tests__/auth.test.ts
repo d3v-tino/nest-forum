@@ -10,12 +10,12 @@ describe("Test for Auth Endpoints", () => {
 
     beforeAll(async () => {
         await connectDB();
-        await User.deleteMany({}); // Clear all users before tests
+        await User.deleteMany({}); 
     });
     
     afterAll(async () => {
-        await User.deleteMany({}); // Clean up users after tests
-        await mongoose.connection.close(); // Close DB connection
+        await User.deleteMany({}); 
+        await mongoose.connection.close();
     });
     
 

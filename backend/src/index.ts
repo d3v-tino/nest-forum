@@ -14,6 +14,7 @@ app.use("/api", apiRouter);
 
 // Endpoints
 apiRouter.use("/auth", authRouter);
+apiRouter.use("/login", authRouter);
 
 if (config.NODE_ENV !== "test") {
     try {

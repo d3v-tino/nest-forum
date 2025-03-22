@@ -29,4 +29,15 @@ describe("Test for Auth Endpoints", () => {
     
         expect(response.statusCode).toBe(201);
     }, 5000);
+
+    test("Test user login at /login", async () => {
+        const response = await request(app)
+        .post("/api/auth/login")
+        .send({
+          email: "testuser12@example.com",
+          password: "TestPassword123!",
+        });
+    
+      expect(response.statusCode).toBe(200);
+    })
 });

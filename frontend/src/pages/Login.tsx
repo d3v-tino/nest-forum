@@ -4,47 +4,33 @@ import { TextField, Button, Link, Typography } from "@mui/material";
 import { NestCard } from "../components/Card";
 import { signup } from "../api/models/auth";
 
-export const Register = () => {
-    const [username, setUsername] = useState("");
+export const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const handleRegister = async () => {
-        try {
-          const result = await signup({ email, username, password });
-      
-          if (!result) {
-            alert("Signup failed.");
-            return; 
-          }
-      
-          navigate("/dashboard");
-        } catch (error) {
-          console.error("Signup error:", error);
-          alert("Signup failed. Please check your inputs.");
-        }
-      };
-
+    const handleLogin = () => {
+        //login method
+    }
+    
     return(
         <NestCard>
-            <Typography variant="h4" align="center" fontWeight="bold">Sign up</Typography>
-                <TextField value={username} label="Username" onChange={(e) => setUsername(e.target.value)} />
+            <Typography variant="h4" align="center" fontWeight="bold">Sign in</Typography>
                 <TextField value={email} label="Email" onChange={(e) => setEmail(e.target.value)} />
                 <TextField value={password} label="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
-                <Button variant="contained" onClick={handleRegister}>Register</Button>
+                <Button variant="contained" onClick={handleLogin}>Login</Button>
                 <Typography variant="body2" align="center">
-                Already have an account?{" "}
+                Dont have an account?{" "}
                     <Link
                     component="button"
                     variant="body2"
                     onClick={() => {
-                        navigate('/')
+                        navigate('/register')
                       }}
                     >
-                    Login
+                    Sign up here
                     </Link>
                 </Typography>
         </NestCard>
-    );
+    )
 }

@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
-import config from "./config";
+import mongoose from 'mongoose';
+import config from './config';
 
 const MONGO_URI = config.MONGO_URI as string;
 
 if (!MONGO_URI) {
-    throw new Error("MONGO_URI is not defined in the environment variables");
+    throw new Error('MONGO_URI is not defined in the environment variables');
 }
 
 export const connectDB = async () => {
@@ -16,4 +16,4 @@ export const connectDB = async () => {
         console.error('❌ MongoDB connection error:', error);
         process.exit(1); 
     }
-}
+};

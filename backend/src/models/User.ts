@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
-import { Counter } from "./Counter";
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import { Counter } from './Counter';
 
 const UserSchema = new mongoose.Schema({
   uid: { type: Number, unique: true },
@@ -10,14 +10,14 @@ const UserSchema = new mongoose.Schema({
   avatar_url: { type: String, required: false },
 }, { timestamps: true });
 
-UserSchema.pre("save", async function (next) {
+UserSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user = this as any;
 
   if (user.isNew) {
     try {
       const counter = await Counter.findByIdAndUpdate(
-        { _id: "userId" },
+        { _id: 'userId' },
         { $inc: { seq: 1 } },
         { new: true, upsert: true }
       );
@@ -29,10 +29,10 @@ UserSchema.pre("save", async function (next) {
   }
 
 
-  if (!this.isModified("password_hash")) return next();
+  if (!this.isModified('password_hash')) return next();
   const salt = await bcrypt.genSalt(10);
   this.password_hash = await bcrypt.hash(this.password_hash, salt);
   next();
 });
 
-export const User = mongoose.model("User", UserSchema);
+export const User = mongoose.model('User', UserSchema);

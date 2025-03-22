@@ -38,6 +38,9 @@ jobs:
 
       - name: Run Backend Tests
         run: npm run test
+        env:
+          NODE_ENV: test
+          MONGO_URI_TEST: ${{ secrets.MONGO_URI_TEST }}
 
   # FRONTEND JOB
   frontend:

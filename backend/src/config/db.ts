@@ -1,20 +1,19 @@
-import config from "./config";
 import mongoose from "mongoose";
-import { User } from "../models/User";
+import config from "./config";
+
+const MONGO_URI = config.MONGO_URI as string;
+
+if (!MONGO_URI) {
+    throw new Error("MONGO_URI is not defined in the environment variables");
+}
 
 export const connectDB = async () => {
     try {
-        void mongoose.connect(config.MONGO_URI as string);
-    console.log("MongoDB Connected");
-
-    const existingUser = await User.findOne({ username: "tino" });
-    if (!existingUser) {
-        await User.create({
-            username: "Tino"
+        const db = await mongoose.connect(MONGO_URI, {
         });
-        console.log("Mock user added");
-    }
+        console.log(`✅ MongoDB connected: ${db.connection.host}`);
     } catch (error) {
-        console.error("Error connecting to database", error);
+        console.error('❌ MongoDB connection error:', error);
+        process.exit(1); 
     }
 }

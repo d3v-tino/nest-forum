@@ -19,7 +19,7 @@ export const Register = () => {
             return; 
           }
       
-          navigate("/dashboard");
+          navigate("/");
         } catch (error) {
           console.error("Signup error:", error);
           alert("Signup failed. Please check your inputs.");

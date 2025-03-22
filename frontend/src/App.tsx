@@ -6,7 +6,7 @@ import { Login } from "./pages/Login";
 
 const App: React.FC = () => {
   return(
-    <Router>
+    <Router basename="/nest-forum">
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Login />} />

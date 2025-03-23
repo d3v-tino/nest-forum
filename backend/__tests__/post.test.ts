@@ -55,5 +55,15 @@ describe('Test for Post Endpoints', () => {
       expect(response.statusCode).toBe(201);
       expect(response.body.post).toHaveProperty('author');
     });
-    
+
+    test('Should fetch the post by ID at GET /api/posts/:postId', async () => {
+      const response = await request(app)
+        .get(`/api/posts/1`)
+        .set('Authorization', `Bearer ${token}`);
+  
+      expect(response.statusCode).toBe(200);
+      expect(response.body.post).toHaveProperty('_id', 1);
+      expect(response.body.post).toHaveProperty('title', 'My test post');
+    });
+
 });

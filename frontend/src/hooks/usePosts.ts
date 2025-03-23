@@ -11,7 +11,7 @@ export const usePosts = ({ postId, authorId }: UsePostsParams = {}) => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     
-    const loadPosts = useCallback(async () => {
+    const loadPosts = async () => {
       setLoading(true);
       try {
         let response;
@@ -31,11 +31,11 @@ export const usePosts = ({ postId, authorId }: UsePostsParams = {}) => {
       } finally {
         setLoading(false);
       }
-    }, [postId, authorId]);
+    };
 
     useEffect(() => {
         loadPosts();
-    }, [postId, authorId]);
+    }, [postId, authorId, loadPosts]);
 
     return { posts, loading };
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Post } from "../models/Post";
 import { getAllPosts, getPostById, getPostsByAuthor } from "../api/models/post";
 
@@ -8,22 +8,24 @@ type UsePostsParams = {
 };
 
 export const usePosts = ({ postId, authorId }: UsePostsParams = {}) => {
-    const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-    const loadPosts = () => {
-      let loader = postId
+  const loadPosts = useCallback(() => {
+    setLoading(true);
+
+    let loader = postId
       ? getPostById(postId).then(res => setPosts([res.post]))
       : authorId
       ? getPostsByAuthor(authorId).then(res => setPosts(res.posts))
       : getAllPosts().then(res => setPosts(res.posts));
 
-      loader.finally(() => setLoading(false));
-    };
+    loader.finally(() => setLoading(false));
+  }, [postId, authorId]);
 
-    useEffect(() => {
-      loadPosts();
-    }, [postId, authorId, loadPosts]);
+  useEffect(() => {
+    loadPosts();
+  }, [loadPosts]);
 
-    return { posts, loading };
+  return { posts, loading };
 };

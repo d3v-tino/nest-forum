@@ -14,7 +14,7 @@ export const Navbar = () => {
                 <Box>
                     {isLoggedIn ? (
                         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                        <Link onClick={() => navigate("/create")} variant="h6">Create post</Link>
+                        <Link onClick={() => navigate("/create")} variant="h6">Create Post</Link>
                         <Link onClick={() => navigate("/profile")} variant="h6">Profile</Link>
                         <Box>
                             <Button variant="contained" onClick={() => { logout(); navigate("/login"); console.log(isLoggedIn);}}>Logout</Button>

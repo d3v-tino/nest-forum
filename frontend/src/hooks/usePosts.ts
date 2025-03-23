@@ -23,7 +23,7 @@ export const usePosts = ({ postId, authorId }: UsePostsParams = {}) => {
 
     useEffect(() => {
       loadPosts();
-    }, [postId, authorId]);
+    }, [postId, authorId, loadPosts]);
 
     return { posts, loading };
 };

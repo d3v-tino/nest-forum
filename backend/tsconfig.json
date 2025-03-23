@@ -13,6 +13,6 @@
       "typeRoots": ["./node_modules/@types"],
       "types": ["node", "express", "cors"]                 
     },
-    "include": ["src", "src/index.ts"],
+    "include": ["src", "src/index.ts", "express"],
     "exclude": ["./node_modules/@types"]
   }  

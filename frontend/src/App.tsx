@@ -4,6 +4,8 @@ import { Register } from "./pages/Register";
 import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
 import { Navbar } from "./components/Navbar";
+import { Create } from "./pages/Create";
+import { PostDetail } from "./pages/PostDetail";
 
 const App: React.FC = () => {
   return(
@@ -13,6 +15,8 @@ const App: React.FC = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/create" element={<Create />} />
+        <Route path="/post/:postId" element={<PostDetail />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

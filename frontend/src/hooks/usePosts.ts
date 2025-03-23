@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Post } from "../models/Post";
 import { getAllPosts, getPostById, getPostsByAuthor } from "../api/models/post";
 
@@ -10,12 +10,11 @@ type UsePostsParams = {
 export const usePosts = ({ postId, authorId }: UsePostsParams = {}) => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
-
-    const loadPosts = async () => {
+    
+    const loadPosts = useCallback(async () => {
       setLoading(true);
       try {
         let response;
-    
         if (postId) {
           response = await getPostById(postId);
           setPosts([response.post]);
@@ -32,7 +31,7 @@ export const usePosts = ({ postId, authorId }: UsePostsParams = {}) => {
       } finally {
         setLoading(false);
       }
-    };
+    }, [postId, authorId]);
 
     useEffect(() => {
         loadPosts();

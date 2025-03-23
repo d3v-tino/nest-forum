@@ -20,7 +20,7 @@ export const Create = () => {
     const handleSubmit = async () => {
         try {
           if (typeof token === "string" && token.trim()) {
-            const result = await createpost({ title, content }, token);
+            await createpost({ title, content }, token);
             navigate("/dashboard");
           } else {
             console.error("You need to be logged in to create a post");

@@ -68,8 +68,7 @@ export const getPostsByAuthor = async (req: Request, res: Response) => {
 
 export const getPostById = async (req: Request, res: Response) => {
     const { postId } = req.params;
-    console.log(postId);
-  
+    
     try {
       const post = await Post.findById(postId);
   

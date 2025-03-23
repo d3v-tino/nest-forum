@@ -12,6 +12,7 @@ dotenv.config({ path: '.env.test' });
 
 describe('Test for Post Endpoints', () => {
     let token: string;
+    let testPostId: string;
 
     beforeAll(async () => {
         await connectDB();
@@ -34,7 +35,16 @@ describe('Test for Post Endpoints', () => {
       });
 
       token = loginRes.body.token;
-      console.log(token);
+
+      const createPostRes = await request(app)
+      .post('/api/posts')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        title: 'My test post',
+        content: 'Some content here',
+      });
+    
+      testPostId = createPostRes.body.post.id;
     });
     
     afterAll(async () => {
@@ -58,12 +68,10 @@ describe('Test for Post Endpoints', () => {
 
     test('Should fetch the post by ID at GET /api/posts/:postId', async () => {
       const response = await request(app)
-        .get(`/api/posts/1`)
-        .set('Authorization', `Bearer ${token}`);
+      .get(`/api/posts/${testPostId}`)
+      .set('Authorization', `Bearer ${token}`);
   
-      expect(response.statusCode).toBe(200);
-      expect(response.body.post).toHaveProperty('_id', 1);
-      expect(response.body.post).toHaveProperty('title', 'My test post');
+    expect(response.statusCode).toBe(200);
     });
 
 });

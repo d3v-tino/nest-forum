@@ -36,7 +36,7 @@ export const usePosts = ({ postId, authorId }: UsePostsParams = {}) => {
 
     useEffect(() => {
         loadPosts();
-    }, [postId, authorId]);
+    }, [postId, authorId, loading]);
 
     return { posts };
 };

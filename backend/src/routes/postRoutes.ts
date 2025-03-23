@@ -15,7 +15,7 @@ postRouter.post('/',
     (req: Request, res: Response) => {createPost(req as IRequest, res);}
 );
 
-postRouter.get("/",
+postRouter.get('/',
     async (req: Request, res: Response) => { await getAllPosts(req, res);
 });
 

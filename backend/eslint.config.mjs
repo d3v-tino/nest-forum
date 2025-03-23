@@ -10,7 +10,6 @@ export default [
     semi: ['error', 'always'],
     quotes: ['error', 'single'],
     eqeqeq: ['error', 'always'],
-    '@typescript-eslint/no-unused-vars': 'warn',
   }},
   {languageOptions: { globals: globals.browser }},
   ...tseslint.configs.recommended,

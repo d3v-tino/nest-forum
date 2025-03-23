@@ -1,22 +1,42 @@
 import { useEffect, useState } from "react";
 import { Post } from "../models/Post";
-import { getallposts } from "../api/models/post";
+import { getAllPosts, getPostById, getPostsByAuthor } from "../api/models/post";
 
-export const usePosts = () => {
+type UsePostsParams = {
+    postId?: string;
+    authorId?: string;
+};
+
+export const usePosts = ({ postId, authorId }: UsePostsParams = {}) => {
     const [posts, setPosts] = useState<Post[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const loadPosts = async () => {
-        try {
-            const response = await getallposts();
-            setPosts(response.posts);
-        } catch (error) {
-            console.error(error);
+      setLoading(true);
+      try {
+        let response;
+    
+        if (postId) {
+          response = await getPostById(postId);
+          setPosts([response.post]);
+        } else if (authorId) {
+          response = await getPostsByAuthor(authorId);
+          setPosts(response.posts);
+        } else {
+          response = await getAllPosts();
+          setPosts(response.posts);
         }
+      } catch (error) {
+        console.error("Error loading posts:", error);
+        setPosts([]);
+      } finally {
+        setLoading(false);
+      }
     };
 
     useEffect(() => {
         loadPosts();
-    }, []);
+    }, [postId, authorId]);
 
-    return { posts };
+    return { posts, loading };
 };

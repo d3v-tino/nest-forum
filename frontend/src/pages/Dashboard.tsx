@@ -2,10 +2,12 @@ import React from "react";
 import { Box, Typography, Stack, Link, CardContent, Card } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { usePosts } from "../hooks/usePosts";
+import { useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
     const { user } = useAuth();
     const { posts } = usePosts();
+    const navigate = useNavigate();
 
     return(
         <Box p={3} maxWidth="50%" alignItems="center">
@@ -15,7 +17,10 @@ export const Dashboard = () => {
                 {posts.map((post) => (
                     <Card key={post?.id}>
                         <CardContent>
-                            <Link variant="h6">
+                            <Link 
+                            onClick={() => navigate(`/post/${post.id}`)}
+                            variant="h6"
+                            >
                                 {post.title}
                             </Link>
                             <Typography variant="body2">Posted by: {post.author?.username}</Typography>

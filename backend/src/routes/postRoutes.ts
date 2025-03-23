@@ -2,7 +2,7 @@ import { NextFunction, Router } from 'express';
 import { body } from 'express-validator';
 import { Request, Response } from 'express';
 import { authenticate, IRequest } from '../middleware/authMiddleware';
-import { createPost } from '../controllers/postController';
+import { createPost, getAllPosts } from '../controllers/postController';
 
 const postRouter = Router();
 
@@ -15,4 +15,9 @@ postRouter.post('/',
     (req: Request, res: Response) => {createPost(req as IRequest, res);}
 );
 
+postRouter.get("/",
+    async (req: Request, res: Response) => { await getAllPosts(req, res);
+});
+
 export default postRouter;
+

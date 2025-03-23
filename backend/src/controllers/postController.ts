@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { Post } from '../models/Post';
 import { IRequest } from '../middleware/authMiddleware';
 
@@ -30,4 +30,18 @@ export const createPost = async (req: IRequest, res: Response) => {
         console.error('Error creating post:', error);
         return res.status(500).json({ error: 'Internal server error' });
     }    
+};
+
+export const getAllPosts = async (req: Request, res: Response) => {
+    try {
+        const posts = await Post.find().sort({ createdAt: -1 });
+
+        return res.status(200).json({
+            message: "Posts fetched successfully",
+            posts,
+        });
+    } catch (error) {
+        console.error("Error fetching posts:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
 };

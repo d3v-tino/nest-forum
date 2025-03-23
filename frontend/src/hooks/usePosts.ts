@@ -9,34 +9,21 @@ type UsePostsParams = {
 
 export const usePosts = ({ postId, authorId }: UsePostsParams = {}) => {
     const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
 
-    const loadPosts = async () => {
-      setLoading(true);
-      try {
-        let response;
-    
-        if (postId) {
-          response = await getPostById(postId);
-          setPosts([response.post]);
-        } else if (authorId) {
-          response = await getPostsByAuthor(authorId);
-          setPosts(response.posts);
-        } else {
-          response = await getAllPosts();
-          setPosts(response.posts);
-        }
-      } catch (error) {
-        console.error("Error loading posts:", error);
-        setPosts([]);
-      } finally {
-        setLoading(false);
-      }
+    const loadPosts = () => {
+      let loader = postId
+      ? getPostById(postId).then(res => setPosts([res.post]))
+      : authorId
+      ? getPostsByAuthor(authorId).then(res => setPosts(res.posts))
+      : getAllPosts().then(res => setPosts(res.posts));
+
+      loader.finally(() => setLoading(false));
     };
 
     useEffect(() => {
-        loadPosts();
-    }, [postId, authorId, loadPosts]);
+      loadPosts();
+    }, [postId, authorId]);
 
     return { posts, loading };
 };

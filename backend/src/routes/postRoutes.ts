@@ -1,7 +1,7 @@
 import { NextFunction, Router } from 'express';
 import { body } from 'express-validator';
 import { Request, Response } from 'express';
-import { authenticate, IRequest } from '../middleware/authMiddleware';
+import { authenticate, IRequest, optionalAuth } from '../middleware/authMiddleware';
 import { createPost, getPosts } from '../controllers/postController';
 
 const postRouter = Router();
@@ -16,6 +16,7 @@ postRouter.post('/',
 );
 
 postRouter.get('/',
+    (req: Request, res: Response, next: NextFunction) => {optionalAuth(req as IRequest, res, next);},
     async (req: Request, res: Response) => { await getPosts(req as IRequest, res);
 });
 

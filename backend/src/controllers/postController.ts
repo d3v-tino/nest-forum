@@ -37,14 +37,15 @@ export const createPost = async (req: IRequest, res: Response) => {
 export const getPosts = async (req: IRequest, res: Response) => {
   try {
     const userId = req.user?.uid;
+    console.log('controller', userId);
     const { authorId, postId } = req.query;
 
     let query = {};
 
-    if (userId) {
-      query = { 'author.uid': Number(authorId) };
-    } else if (postId) {
+    if (postId) {
       query = { _id: postId };
+    } else if (postId) {
+      query = { 'author.uid': Number(authorId) };
     }
 
      const posts = await Post.find(query).sort({ createdAt: -1 });
@@ -64,8 +65,18 @@ export const getPosts = async (req: IRequest, res: Response) => {
           updatedAt: post.updatedAt,
         };
 
+        if (userId) {
+          const liked = await Like.exists({
+            user: userId,
+            targetId: post._id,
+            targetType: 'post',
+          });
+    
+          enriched.likedByCurrentUser = !!liked;
+        }
 
-        return enriched;
+        console.log(enriched.likedByCurrentUser);
+        return enriched; 
       })
 
     );

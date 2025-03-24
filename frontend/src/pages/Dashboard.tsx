@@ -7,8 +7,12 @@ import { Post } from "../models/Post";
 import { LikeButton } from "../components/LikeButton";
 
 export const Dashboard = () => {
-    const { user } = useAuth();
-    const [posts, reloadPosts] = usePosts({});
+    const { user, isLoggedIn, token } = useAuth();
+    const safeToken = typeof token === "string" && token.trim() ? token : undefined;
+
+    const [posts, reloadPosts] = usePosts({
+      token: isLoggedIn ? safeToken : undefined,
+    });
     const navigate = useNavigate();
 
     console.log(posts);
@@ -40,7 +44,10 @@ export const Dashboard = () => {
                         </Typography>
                         <Stack direction="row" alignItems="center" spacing={1}>
                             <LikeButton
+                            key={post.id + String(post.likedByCurrentUser)}
                             post={post}
+                            onLikeToggled={reloadPosts}
+                            readonly={false}
                             />
                         </Stack>
                       </Stack>

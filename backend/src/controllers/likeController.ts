@@ -18,7 +18,6 @@ export const toggleLike = async (req: IRequest, res: Response) => {
                 { $inc: { likes_count: -1 } },
                 { new: true }
               );
-              console.log(post?.likes_count);
               return res.status(200).json({ liked: false, likes_count: post?.likes_count });
             }
           } else {
@@ -29,7 +28,6 @@ export const toggleLike = async (req: IRequest, res: Response) => {
                 { $inc: { likes_count: 1 } },
                 { new: true }
               );
-              console.log(post?.likes_count);
               return res.status(200).json({ liked: true, likes_count: post?.likes_count });
             }
           }

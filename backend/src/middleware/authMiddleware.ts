@@ -23,7 +23,6 @@ export const authenticate = (req: IRequest, res: Response, next: NextFunction) =
       try {
         const decoded = jwt.verify(token, config.JWT_SECRET as string) as AuthUser;
         req.user = decoded;
-        console.log(decoded);
         return next();
       } catch (error) {
         console.error(error);
@@ -45,7 +44,6 @@ export const optionalAuth = (req: IRequest, res: Response, next: NextFunction) =
   try {
     const decoded = jwt.verify(token, config.JWT_SECRET as string) as AuthUser;
     req.user = decoded;
-    console.log(decoded);
     return next();
   } catch (error) {
     console.error(error);

@@ -17,7 +17,7 @@ export const Navbar = () => {
                         <Link onClick={() => navigate("/create")} variant="h6">Create Post</Link>
                         <Link onClick={() => navigate("/profile")} variant="h6">Profile</Link>
                         <Box>
-                            <Button variant="contained" onClick={() => { logout(); navigate("/login"); console.log(isLoggedIn);}}>Logout</Button>
+                            <Button variant="contained" onClick={() => { logout(); navigate("/login");}}>Logout</Button>
                         </Box>
                     </Box>
                     ) : (

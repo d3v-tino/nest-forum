@@ -8,7 +8,6 @@ export const createPost = async (req: IRequest, res: Response) => {
     try {
         const { title, content } = req.body;
         const user = req.user;
-        console.log(user.username, user.uid);
         
         if (!title || !content) {
             return res.status(400).json({ error: 'Title and content are required.' });
@@ -37,7 +36,6 @@ export const createPost = async (req: IRequest, res: Response) => {
 export const getPosts = async (req: IRequest, res: Response) => {
   try {
     const userId = req.user?.uid;
-    console.log('controller', userId);
     const { authorId, postId } = req.query;
 
     let query = {};
@@ -74,8 +72,6 @@ export const getPosts = async (req: IRequest, res: Response) => {
     
           enriched.likedByCurrentUser = !!liked;
         }
-
-        console.log(enriched.likedByCurrentUser);
         return enriched; 
       })
 

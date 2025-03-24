@@ -1,5 +1,19 @@
 import mongoose from 'mongoose';
 
+export interface IPost {
+  id: string;
+  title: string;
+  content: string;
+  author: {
+    uid: number | null | undefined;
+    username: string | null | undefined;
+  };
+  likes_count: number;
+  createdAt: Date;
+  updatedAt: Date;
+  likedByCurrentUser?: boolean;
+}
+
 const PostSchema = new mongoose.Schema({
     title: { type: String, required: true, trim: true },
     content: { type: String, required: true },

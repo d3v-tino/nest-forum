@@ -1,6 +1,8 @@
 import { Response, Request } from 'express';
-import { Post } from '../models/Post';
+import { IPost, Post } from '../models/Post';
 import { IRequest } from '../middleware/authMiddleware';
+import { Like } from '../models/Like';
+import { title } from 'process';
 
 export const createPost = async (req: IRequest, res: Response) => {
     try {
@@ -32,56 +34,54 @@ export const createPost = async (req: IRequest, res: Response) => {
     }    
 };
 
-export const getAllPosts = async (req: Request, res: Response) => {
-    try {
-        const posts = await Post.find().sort({ createdAt: -1 });
+export const getPosts = async (req: IRequest, res: Response) => {
+  try {
+    const userId = req.user?.uid;
+    const { authorId, postId } = req.query;
 
-        return res.status(200).json({
-            message: 'Posts fetched successfully',
-            posts,
-        });
-    } catch (error) {
-        console.error('Error fetching posts:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+    let query = {};
+
+    if (userId) {
+      query = { 'author.uid': Number(authorId) };
+    } else if (postId) {
+      query = { _id: postId };
     }
+
+     const posts = await Post.find(query).sort({ createdAt: -1 });
+     
+     const enrichedPosts: IPost[] = await Promise.all(
+      posts.map(async (post) => {
+        const enriched: IPost = {
+          id: post._id.toString(),
+          title: post.title,
+          content: post.content,
+          author: {
+            uid: post.author?.uid,
+            username: post.author?.username,
+          },
+          likes_count: post.likes_count || 0,
+          createdAt: post.createdAt,
+          updatedAt: post.updatedAt,
+        };
+
+
+        return enriched;
+      })
+
+    );
+
+    if (postId && enrichedPosts.length > 0) {
+      return res.status(200).json({ post: enrichedPosts[0] });
+    }
+
+    return res.status(200).json({
+      message: 'Posts fetched successfully',
+      posts: enrichedPosts,
+    });
+
+
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 };
-
-export const getPostsByAuthor = async (req: Request, res: Response) => {
-    const { authorId } = req.params;
-  
-    try {
-      const posts = await Post.find({ 'author.uid': authorId }).sort({ createdAt: -1 });
-  
-      if (posts.length === 0) {
-        return res.status(404).json({ message: 'No posts found for this author.' });
-      }
-  
-      return res.status(200).json({
-        message: 'Posts fetched successfully',
-        posts,
-      });
-    } catch (error) {
-      console.error('Error fetching posts by author:', error);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-  };
-
-export const getPostById = async (req: Request, res: Response) => {
-    const { postId } = req.params;
-    
-    try {
-      const post = await Post.findById(postId);
-  
-      if (!post) {
-        return res.status(404).json({ message: 'Post not found' });
-      }
-  
-      return res.status(200).json({
-        message: 'Post fetched successfully',
-        post,
-      });
-    } catch (error) {
-      console.error('Error fetching post:', error);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-  };

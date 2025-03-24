@@ -5,12 +5,4 @@ export const createpost = async ({ title, content }:{ title: string, content: st
     return await api.post(API_ENDPOINTS.POSTS, { title, content }, { Authorization: `Bearer ${token}` });
 };
 
-export const getAllPosts = async () => api.get(API_ENDPOINTS.POSTS);
-
-export const getPostById = async (postId: string) => {
-    return await api.get(`${API_ENDPOINTS.POSTS}/${postId}`);
-};
-
-export const getPostsByAuthor = async (authorId: string) => {
-    return await api.get(`${API_ENDPOINTS.POSTS}/author/${authorId}`);
-};
+export const getPosts = async ({ query, token }:{query?: Record<string, string>, token?: string}) => api.get(API_ENDPOINTS.POSTS, query, token ? { Authorization: `Bearer ${token}` } : undefined);

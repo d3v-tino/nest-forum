@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { usePosts } from "../hooks/usePosts";
 import { useNavigate } from "react-router-dom";
 import { Post } from "../models/Post";
+import { LikeButton } from "../components/LikeButton";
 
 export const Dashboard = () => {
     const { user } = useAuth();
@@ -38,6 +39,9 @@ export const Dashboard = () => {
                           {post.content}...
                         </Typography>
                         <Stack direction="row" alignItems="center" spacing={1}>
+                            <LikeButton
+                            post={post}
+                            />
                         </Stack>
                       </Stack>
                     </CardContent>

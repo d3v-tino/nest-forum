@@ -15,7 +15,6 @@ export const registerUser = async (req: Request, res: Response) => {
         const { username, email, password } = req.body;
         const existingUser = await User.findOne({ email: email });
         if (existingUser) {
-            console.log('User already exists');
             return res.status(400).json({ error: 'Email already in use' });
         }
 
@@ -25,7 +24,6 @@ export const registerUser = async (req: Request, res: Response) => {
             password_hash: password
         });
 
-        console.log('User registered');
         return res.status(201).json({
             message: 'User registered',
             user: {
@@ -51,13 +49,11 @@ export const loginUser = async (req: Request, res: Response) => {
       try {
         const { email, password } = req.body;
         const user = await User.findOne({ email: email });
-        if (!user) {
-          console.log('User not found');
+        if (!user) {;
           return res.status(400).json({ error: 'Invalid credentials' });
         }
         const isMatch = await bcrypt.compare(password, user.password_hash);
         if (!isMatch) {
-          console.log('Invalid password');
           return res.status(400).json({ error: 'Invalid credentials' });
         }
 
@@ -66,8 +62,7 @@ export const loginUser = async (req: Request, res: Response) => {
             config.JWT_SECRET || 'dev_secret',
             { expiresIn: '1h' }
           );
-        
-          console.log('User logged in');
+          
           return res.status(200).json({
             message: 'Login successful',
             token,

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Like } from '../models/Like';
 import { IRequest } from '../middleware/authMiddleware';
 import { Post } from '../models/Post';

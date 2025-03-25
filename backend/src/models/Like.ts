@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 const LikeSchema = new mongoose.Schema({
     user: { type: Number, required: true }, 

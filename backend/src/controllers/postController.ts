@@ -1,8 +1,7 @@
-import { Response, Request } from 'express';
+import { Response } from 'express';
 import { IPost, Post } from '../models/Post';
 import { IRequest } from '../middleware/authMiddleware';
 import { Like } from '../models/Like';
-import { title } from 'process';
 
 export const createPost = async (req: IRequest, res: Response) => {
     try {

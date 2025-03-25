@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CardContent, Container, Typography, Card, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -13,22 +13,23 @@ export const PostDetail = () => {
     const [post, setPost] = useState<Post | null>(null);
     const safeToken = typeof token === "string" && token.trim() ? token : undefined;
 
-    useEffect(() => {
-        const reloadPost = async () => {
-            if (!postId) return;
+    const reloadPost = useCallback(async () => {
+        if (!postId) return;
     
-            try {
-                const res = await getPosts({
-                    query: { postId },
-                    token: safeToken,
-                });
-                setPost(res.posts?.[0] ?? null);
-            } catch (error) {
-                console.error("Error loading post:", error);
-            }
-        };
+        try {
+          const res = await getPosts({
+            query: { postId },
+            token: safeToken,
+          });
+          setPost(res.posts?.[0] ?? null);
+        } catch (error) {
+          console.error("Error loading post:", error);
+        }
+      }, [postId, safeToken]);
+    
+      useEffect(() => {
         reloadPost();
-    }, [postId, safeToken]);
+      }, [reloadPost]);
     
     return(
         <Container maxWidth="md" sx={{ mt: 4 }}>

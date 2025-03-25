@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { IPost, Post } from '../models/Post';
 import { IRequest } from '../middleware/authMiddleware';
 import { Like } from '../models/Like';
+import { Comment, IComment } from '../models/Comment';
 
 export const createPost = async (req: IRequest, res: Response) => {
     try {
@@ -88,6 +89,48 @@ export const getPosts = async (req: IRequest, res: Response) => {
 
   } catch (error) {
     console.error('Error fetching posts:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const getPostComments = async (req: IRequest, res: Response) => {
+  try {
+    //const userId = req.user?.uid;
+    const { postId } = req.params;
+  
+    const post = await Post.findById(postId);
+  
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+  
+    const comments = await Comment.find({ post: postId }).sort({ createdAt: -1 });
+
+    const enrichedComments: IComment[] = await Promise.all(
+      comments.map(async (comment) => {
+        const enriched: IComment = {
+          id: comment._id.toString(),
+          post: post._id.toString(),
+          content: comment.content,
+          author: {
+            uid: comment.author?.uid,
+            username: comment.author?.username,
+          },
+          likes_count: comment.likes_count || 0,
+          createdAt: comment.createdAt,
+          updatedAt: comment.updatedAt,
+        };
+
+        return enriched;
+      })
+    );
+  
+    return res.status(200).json({
+      message: 'Comments fetched successfully',
+      comments: enrichedComments,
+    });
+  } catch (error) {
+    console.error('Error fetching post comments:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };

@@ -3,4 +3,5 @@ export const API_ENDPOINTS = {
     LOGIN: "auth/login",
     POSTS: "posts",
     LIKES: "likes",
+    COMMENTS: "comments",
 }

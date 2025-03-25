@@ -5,6 +5,7 @@ import cors from 'cors';
 import authRouter from './routes/authRoute';
 import postRouter from './routes/postRoutes';
 import likeRouter from './routes/likeRoutes';
+import commentRouter from './routes/commentRoutes';
 
 const PORT = config.PORT || 5000;
 export const app = express();
@@ -18,6 +19,7 @@ app.use('/api', apiRouter);
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/posts', postRouter);
 apiRouter.use('/likes', likeRouter);
+apiRouter.use('/comments', commentRouter);
 
 if (config.NODE_ENV !== 'test') {
     try {

@@ -1,31 +1,19 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { Post } from "../models/Post";
-import { getAllPosts, getPostById, getPostsByAuthor } from "../api/models/post";
+import { getPosts } from "../api/models/post";
 
-type UsePostsParams = {
-    postId?: string;
-    authorId?: string;
-};
-
-export const usePosts = ({ postId, authorId }: UsePostsParams = {}) => {
+export const usePosts = ({ query, token }:{ query?: Record<string, string>, token?: string }): [Post[]] => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const loadPosts = useCallback(() => {
-    setLoading(true);
-
-    let loader = postId
-      ? getPostById(postId).then(res => setPosts([res.post]))
-      : authorId
-      ? getPostsByAuthor(authorId).then(res => setPosts(res.posts))
-      : getAllPosts().then(res => setPosts(res.posts));
-
-    loader.finally(() => setLoading(false));
-  }, [postId, authorId]);
 
   useEffect(() => {
-    loadPosts();
-  }, [loadPosts]);
+    const reloadPosts = () => {
+      setPosts([]);
+      getPosts({ query: query, token: token })
+      .then(res => setPosts(res.posts));
+    };
+    
+    reloadPosts();
+  }, [query, token]);
 
-  return { posts, loading };
+  return [posts];
 };

@@ -9,4 +9,5 @@ export interface Post {
         username: string;
     };
     likes_count: number;
+    likedByCurrentUser?: boolean;
 }

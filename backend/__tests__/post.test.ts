@@ -13,6 +13,7 @@ dotenv.config({ path: '.env.test' });
 describe('Test for Post Endpoints', () => {
     let token: string;
     let testPostId: string;
+    let testUserId: number;
 
     beforeAll(async () => {
         await connectDB();
@@ -35,6 +36,7 @@ describe('Test for Post Endpoints', () => {
       });
 
       token = loginRes.body.token;
+      testUserId = loginRes.body.uid;
 
       const createPostRes = await request(app)
       .post('/api/posts')
@@ -66,12 +68,28 @@ describe('Test for Post Endpoints', () => {
       expect(response.body.post).toHaveProperty('author');
     });
 
-    test('Should fetch the post by ID at GET /api/posts/:postId', async () => {
+    test('Should fetch all posts at /api/posts', async () => {
       const response = await request(app)
-      .get(`/api/posts/${testPostId}`)
-      .set('Authorization', `Bearer ${token}`);
-  
+      .get('/api/posts');
+
     expect(response.statusCode).toBe(200);
+    });
+
+    test('Should fetch all posts made by test user at /api/posts', async () => {
+      const response = await request(app)
+      .get(`/api/posts?authorId=${testUserId}`);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.posts.length).toBe(2);
+    });
+
+    test('Should fetch single post by postId at /api/posts', async () => {
+      const response = await request(app)
+      .get(`/api/posts?postId=${testPostId}`);
+
+    
+    expect(response.statusCode).toBe(200);
+    expect(response.body.post.id).toBe(testPostId);
     });
 
 });

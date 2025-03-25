@@ -36,13 +36,14 @@ class ApiClient {
         }
     }
 
-    public async get(endpoint: string) {
-        return this.request({endpoint, method: "GET"});
+    public async get(endpoint: string, data?: Record<string, string>, additionalHeaders?: Record<string, string>) {
+        return this.request({endpoint, method: "GET", data, additionalHeaders});
     }
 
     public async post(endpoint: string, data: Record<string, string>, additionalHeaders?: Record<string, string>) {
         return this.request({endpoint, method: "POST", data, additionalHeaders});
     }
+    
 }
 
 export const api = new ApiClient(`${baseUrl}/api`);

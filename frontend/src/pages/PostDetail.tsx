@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { usePosts } from "../hooks/usePosts";
 import { CardContent, Container, Typography, Card, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { title } from "process";
 import { Post } from "../models/Post";
 import { getPosts } from "../api/models/post";
 import { LikeButton } from "../components/LikeButton";
@@ -15,21 +13,20 @@ export const PostDetail = () => {
     const [post, setPost] = useState<Post | null>(null);
     const safeToken = typeof token === "string" && token.trim() ? token : undefined;
 
-    const reloadPost = async () => {
-        if (!postId) return;
-
-        try {
-            const res = await getPosts({
-                query: { postId },
-                token: safeToken,
-            });
-            setPost(res.posts?.[0] ?? null);
-        } catch (error) {
-            console.error("Error loading post:", error);
-        }
-    };
-
     useEffect(() => {
+        const reloadPost = async () => {
+            if (!postId) return;
+    
+            try {
+                const res = await getPosts({
+                    query: { postId },
+                    token: safeToken,
+                });
+                setPost(res.posts?.[0] ?? null);
+            } catch (error) {
+                console.error("Error loading post:", error);
+            }
+        };
         reloadPost();
     }, [postId, safeToken]);
     

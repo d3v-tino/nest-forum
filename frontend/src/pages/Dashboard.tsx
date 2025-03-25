@@ -12,7 +12,7 @@ export const Dashboard = () => {
     const safeToken = typeof token === "string" && token.trim() ? token : undefined;
 
     const [boardPosts, setBoardPosts] = useState<Post[]>([]);
-    const [posts, reloadPost] = usePosts({
+    const [posts] = usePosts({
       token: isLoggedIn ? safeToken : undefined,
     });
     const navigate = useNavigate();

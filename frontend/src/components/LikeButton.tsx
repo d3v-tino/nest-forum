@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { IconButton, Typography, Stack } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useAuth } from "../context/AuthContext";
 import { Post } from "../models/Post";
 import { toggleLike } from "../api/models/like";
-import { usePosts } from "../hooks/usePosts";
 
 interface LikeButtonProps {
     post: Post;

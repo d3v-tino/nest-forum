@@ -1,4 +1,3 @@
-import { data } from "react-router-dom";
 import { api } from "../apiClient";
 import { API_ENDPOINTS } from "../endpoints";
 

@@ -1,14 +1,14 @@
-export interface Post {
+export interface Comment {
     id: string;
-    title: string;
+    post: string;
     content: string;
-    createdAt: string;
-    updatedAt: string;
     author: {
         uid: number;
         username: string;
     };
     likes_count: number;
+    createdAt: string;
+    updatedAt: string;
+    _count: number;
     likedByCurrentUser?: boolean;
-    comments?: Comment[] | undefined;
 }

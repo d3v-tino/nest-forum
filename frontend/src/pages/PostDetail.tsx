@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { Post } from "../models/Post";
 import { getPosts } from "../api/models/post";
 import { LikeButton } from "../components/LikeButton";
+import { CommentSection } from "../components/CommentSection";
 
 export const PostDetail = () => {
     const { postId } = useParams();
@@ -46,6 +47,9 @@ export const PostDetail = () => {
                             readonly={false}
                             onLikeToggled={reloadPost}
                             />)}
+                            {post && <CommentSection 
+                            post={post} 
+                            />}
                         </Stack>
                     </CardContent>
                 </Card>

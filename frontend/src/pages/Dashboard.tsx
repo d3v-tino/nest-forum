@@ -64,7 +64,8 @@ export const Dashboard = () => {
                   <Stack direction="row" alignItems="center" spacing={1}>
                             <LikeButton
                             key={post.id + String(post.likedByCurrentUser)}
-                            post={post}
+                            target={post}
+                            targetType={'post'}
                             onLikeToggled={reloadDashboard}
                             readonly={false}
                             />

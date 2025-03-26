@@ -21,6 +21,7 @@ postRouter.get('/',
 });
 
 postRouter.get('/:postId/comments',
+    (req: Request, res: Response, next: NextFunction) => {optionalAuth(req as IRequest, res, next);},
     (req: Request, res: Response) => {getPostComments(req as IRequest, res);}
 );
 

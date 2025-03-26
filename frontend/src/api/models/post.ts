@@ -7,4 +7,4 @@ export const createpost = async ({ title, content }:{ title: string, content: st
 
 export const getPosts = async ({ query, token }:{query?: Record<string, string>, token?: string}) => api.get(API_ENDPOINTS.POSTS, query, token ? { Authorization: `Bearer ${token}` } : undefined);
 
-export const getPostComments = async (postId: string) => api.get(`${API_ENDPOINTS.POSTS}/${postId}/comments`);
+export const getPostComments = async (postId: string, token?: string) => api.get(`${API_ENDPOINTS.POSTS}/${postId}/comments`, undefined, { Authorization: `Bearer ${token}` });

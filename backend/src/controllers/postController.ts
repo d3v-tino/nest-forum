@@ -97,7 +97,7 @@ export const getPosts = async (req: IRequest, res: Response) => {
 
 export const getPostComments = async (req: IRequest, res: Response) => {
   try {
-    //const userId = req.user?.uid;
+    const userId = req.user?.uid;
     const { postId } = req.params;
   
     const post = await Post.findById(postId);
@@ -123,6 +123,15 @@ export const getPostComments = async (req: IRequest, res: Response) => {
           updatedAt: comment.updatedAt,
         };
 
+        if (userId) {
+          const liked = await Like.exists({
+            user: userId,
+            targetId: comment._id,
+            targetType: 'comment',
+          });
+    
+          enriched.likedByCurrentUser = !!liked;
+        }
         return enriched;
       })
     );

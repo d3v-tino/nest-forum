@@ -11,4 +11,5 @@ export interface Post {
     likes_count: number;
     likedByCurrentUser?: boolean;
     comments?: Comment[] | undefined;
+    comment_count: number;
 }

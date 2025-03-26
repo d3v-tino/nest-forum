@@ -5,19 +5,21 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useAuth } from "../context/AuthContext";
 import { Post } from "../models/Post";
 import { toggleLike } from "../api/models/like";
+import { Comment } from "../models/Comment";
 
 interface LikeButtonProps {
-    post: Post;
+    target: Post | Comment;
+    targetType: 'post' | 'comment';
     onLikeToggled?: () => void;
     readonly?: boolean;
 }
-export const LikeButton = ({ post, onLikeToggled, readonly = true }: LikeButtonProps) => {
+export const LikeButton = ({ target, onLikeToggled, targetType, readonly = true }: LikeButtonProps) => {
     const { token, isLoggedIn } = useAuth();
 
     const handleToggleLike = async () => {
       if (!token || readonly || !isLoggedIn) return;
       try {
-        await toggleLike(post.id, 'post', token);
+        await toggleLike(target.id, targetType, token);
         if (onLikeToggled) onLikeToggled();
       } catch (error) {
         
@@ -31,9 +33,9 @@ export const LikeButton = ({ post, onLikeToggled, readonly = true }: LikeButtonP
           disabled={!isLoggedIn || readonly}
           size="small"
         >
-          {post.likedByCurrentUser ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+          {target.likedByCurrentUser ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
         </IconButton>
-        <Typography variant="body2">{post.likes_count}</Typography>
+        <Typography variant="body2">{target.likes_count}</Typography>
       </Stack>
     );
 };

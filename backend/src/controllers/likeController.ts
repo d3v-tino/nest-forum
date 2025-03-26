@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { Like } from '../models/Like';
 import { IRequest } from '../middleware/authMiddleware';
 import { Post } from '../models/Post';
+import { Comment } from '../models/Comment';
 
 export const toggleLike = async (req: IRequest, res: Response) => {
     const user = req.user;
@@ -19,7 +20,14 @@ export const toggleLike = async (req: IRequest, res: Response) => {
                 { new: true }
               );
               return res.status(200).json({ liked: false, likes_count: post?.likes_count });
-            }
+            } else if (targetType === 'comment') {
+              const comment = await Comment.findByIdAndUpdate(
+                targetId,
+                { $inc: { likes_count: -1 } },
+                { new: true }
+              );
+              return res.status(200).json({ liked: false, likes_count: comment?.likes_count });
+            } 
           } else {
             await Like.create({ user: user.uid, targetId, targetType });
             if (targetType === 'post') {
@@ -29,6 +37,13 @@ export const toggleLike = async (req: IRequest, res: Response) => {
                 { new: true }
               );
               return res.status(200).json({ liked: true, likes_count: post?.likes_count });
+            } else if (targetType === 'comment') {
+              const comment = await Comment.findByIdAndUpdate(
+                targetId,
+                { $inc: { likes_count: 1 } },
+                { new: true } 
+              );
+              return res.status(200).json({ liked: true, likes_count: comment?.likes_count });
             }
           }
 

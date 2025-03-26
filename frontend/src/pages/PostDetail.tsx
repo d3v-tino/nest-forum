@@ -37,18 +37,20 @@ export const PostDetail = () => {
         <Stack spacing={2}>
             <Card>
                 <CardContent>
-                    <Stack mx={10} my={4}>
+                    <Stack mx={4} my={4}>
                         <Typography variant="h4" >{post?.title}</Typography>
                         <Typography variant="body2" >Posted by: {post?.author?.username}</Typography>
                         <Typography variant="body2" mt={2}>{post?.content}</Typography>
                             {post && (
                             <LikeButton
-                            post={post}
+                            target={post}
+                            targetType="post"
                             readonly={false}
                             onLikeToggled={reloadPost}
                             />)}
-                            {post && <CommentSection 
-                            post={post} 
+                            {postId && 
+                            <CommentSection 
+                            postId={postId}
                             />}
                         </Stack>
                     </CardContent>

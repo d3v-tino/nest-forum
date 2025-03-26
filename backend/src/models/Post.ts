@@ -12,6 +12,7 @@ export interface IPost {
   createdAt: Date;
   updatedAt: Date;
   likedByCurrentUser?: boolean;
+  comment_count: number | 0;
 }
 
 const PostSchema = new mongoose.Schema({

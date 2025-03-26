@@ -47,8 +47,8 @@ export const PostDetail = () => {
                             readonly={false}
                             onLikeToggled={reloadPost}
                             />)}
-                            {post && <CommentSection 
-                            post={post} 
+                            {postId && <CommentSection 
+                            postId={postId}
                             />}
                         </Stack>
                     </CardContent>

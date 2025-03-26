@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Post } from "../models/Post";
 import { Comment } from "../models/Comment";
 import { Typography, Stack, Paper, Divider, TextField, Button, Box } from "@mui/material";
@@ -8,24 +8,34 @@ import { createComment } from "../api/models/comment";
 import { getPostComments } from "../api/models/post";
 
 interface CommentSectionProps {
-    post: Post;
+    postId: string;
 }
 
-export const CommentSection = ({ post }: CommentSectionProps) => {
+export const CommentSection = ({ postId }: CommentSectionProps) => {
     const { token, isLoggedIn } = useAuth();
     // const safeToken = typeof token === "string" && token.trim() ? token : undefined;
 
     
-    const [comments] = useComments({ postId: post.id });
+    const [comments] = useComments({ postId: postId });
     const [postComments, setPostComments] = useState<Comment[]>([]);
     const [content, setContent] = useState('');
+
+    const reloadComments = useCallback(async () => {
+        if (!postId) return;
+        try {
+            const res = await getPostComments(postId);
+            setPostComments(res.comments ?? null);
+        } catch (error) {
+            console.error("Error loading post:", error);
+        }
+    }, [postId]);
 
     const handleSubmit = async () => {
         try {
             if (typeof token === "string" && token.trim()) {
-                await createComment({postId: post.id, content: content }, token);
+                await createComment({postId: postId, content: content }, token);
                 setContent('');
-                const res = await getPostComments(post.id);
+                const res = await getPostComments(postId);
                 setPostComments(res.comments ?? []);         
             } else {
                 console.log('You need to be logged in to create a post');
@@ -39,10 +49,8 @@ export const CommentSection = ({ post }: CommentSectionProps) => {
     };
 
     useEffect(() => {
-        if (comments.length > 0 && postComments.length === 0) {
-        setPostComments(comments);
-        }
-    }, [comments, postComments]);
+        reloadComments();
+    }, [reloadComments]);
 
     return(
         <Stack spacing={2} mt={4}>
@@ -80,9 +88,8 @@ export const CommentSection = ({ post }: CommentSectionProps) => {
             >
                 <Stack spacing={1}>
                 <Typography variant="subtitle2" color="text.secondary">
-                    {comment.author.username}
+                    {comment.author.username}: {comment.content}
                 </Typography>
-                <Typography variant="body1">{comment.content}</Typography>
                 <Divider />
                 <Typography variant="caption" color="text.disabled">
                     {new Date(comment.createdAt).toLocaleString()}

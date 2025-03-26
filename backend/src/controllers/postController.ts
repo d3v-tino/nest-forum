@@ -50,6 +50,7 @@ export const getPosts = async (req: IRequest, res: Response) => {
      
      const enrichedPosts: IPost[] = await Promise.all(
       posts.map(async (post) => {
+        const comments: number = await Comment.countDocuments({ post: post._id });
         const enriched: IPost = {
           id: post._id.toString(),
           title: post.title,
@@ -61,6 +62,7 @@ export const getPosts = async (req: IRequest, res: Response) => {
           likes_count: post.likes_count || 0,
           createdAt: post.createdAt,
           updatedAt: post.updatedAt,
+          comment_count: comments,
         };
 
         if (userId) {

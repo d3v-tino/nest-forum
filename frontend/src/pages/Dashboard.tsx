@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { LikeButton } from "../components/LikeButton";
 import { getPosts } from "../api/models/post";
 import { Post } from "../models/Post";
+import CommentIcon from '@mui/icons-material/Comment';
 
 export const Dashboard = () => {
     const { user, isLoggedIn, token } = useAuth();
@@ -57,7 +58,7 @@ export const Dashboard = () => {
                   </Typography>
             
                   <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
-                    {post.content}...
+                    {post.content}
                   </Typography>
             
                   <Stack direction="row" alignItems="center" spacing={1}>
@@ -67,6 +68,8 @@ export const Dashboard = () => {
                             onLikeToggled={reloadDashboard}
                             readonly={false}
                             />
+                            <CommentIcon fontSize="medium" color="disabled"></CommentIcon>
+                            <Typography>{post.comment_count}</Typography>                           
                         </Stack>
                       </Stack>
                     </CardContent>

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Post } from "../models/Post";
 import { Comment } from "../models/Comment";
-import { Typography, Stack, Paper, Divider, TextField, Button, Box } from "@mui/material";
+import { Typography, Stack, Paper, TextField, Button, Box } from "@mui/material";
 import { useComments } from "../hooks/useComments";
 import { useAuth } from "../context/AuthContext";
 import { createComment } from "../api/models/comment";
@@ -29,7 +28,7 @@ export const CommentSection = ({ postId }: CommentSectionProps) => {
         } catch (error) {
             console.error("Error loading post:", error);
         }
-    }, [postId]);
+    }, [postId, safeToken]);
 
     const handleSubmit = async () => {
         try {

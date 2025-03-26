@@ -13,7 +13,7 @@ export const useComments = (postId: string, token?: string): [Comment[]] => {
     };
     
     reloadComments();
-  }, [postId]);
+  }, [postId, token]);
 
   return [comments];
 };

@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/nest-forum/static/js/main.bb591c27.js",
+    "main.js": "/nest-forum/static/js/main.038ef299.js",
     "index.html": "/nest-forum/index.html",
-    "main.bb591c27.js.map": "/nest-forum/static/js/main.bb591c27.js.map"
+    "main.038ef299.js.map": "/nest-forum/static/js/main.038ef299.js.map"
   },
   "entrypoints": [
-    "static/js/main.bb591c27.js"
+    "static/js/main.038ef299.js"
   ]
 }

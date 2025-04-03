@@ -12,21 +12,24 @@ export const PostDetail = () => {
     const { token } = useAuth();
 
     const [post, setPost] = useState<Post | null>(null);
-    const safeToken = typeof token === "string" && token.trim() ? token : undefined;
 
     const reloadPost = useCallback(async () => {
         if (!postId) return;
+
+        const cleanToken = typeof token === "string" && token.trim() ? token : undefined;
     
         try {
+
           const res = await getPosts({
             query: { postId },
-            token: safeToken,
+            ...(cleanToken ? { token: cleanToken } : {}),
           });
+          
           setPost(res.posts?.[0] ?? null);
         } catch (error) {
           console.error("Error loading post:", error);
         }
-      }, [postId, safeToken]);
+      }, [postId, token]);
     
       useEffect(() => {
         reloadPost();

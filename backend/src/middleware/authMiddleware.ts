@@ -36,7 +36,7 @@ export const optionalAuth = (req: IRequest, res: Response, next: NextFunction) =
   if (!authHeader) return next();
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return next();
   }
 
   const token = authHeader.split(' ')[1];
@@ -44,9 +44,9 @@ export const optionalAuth = (req: IRequest, res: Response, next: NextFunction) =
   try {
     const decoded = jwt.verify(token, config.JWT_SECRET as string) as AuthUser;
     req.user = decoded;
-    return next();
   } catch (error) {
     console.error(error);
-    return res.status(401).json({ error: 'Invalid token' });
   }
+
+  return next();
 };
